@@ -15,7 +15,9 @@
         "symfony/flex": "^2",
         "symfony/framework-bundle": "~6.3.0",
         "symfony/runtime": "~6.3.0",
-        "symfony/yaml": "~6.3.0"
+        "symfony/twig-bundle": "6.3.*",
+        "symfony/yaml": "~6.3.0",
+        "twig/twig": "^3.0"
     },
     "require-dev": {
         "enlightn/security-checker": "^1.10",
