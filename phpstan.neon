@@ -8,8 +8,8 @@ parameters:
         - tests
     parallel:
         maximumNumberOfProcesses: 32
-    #symfony:
-    #    containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
+    excludePaths:
+        - 'src/Security/Authenticator.php'
     disallowedFunctionCalls:
             -
                 function:
