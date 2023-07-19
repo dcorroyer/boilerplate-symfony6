@@ -37,13 +37,30 @@ clear:
 	docker-compose run --rm php artisan config:clear
 
 dbcreate:
-	docker-compose run --rm php php artisan migrate:fresh --seed
+	docker-compose run --rm php php bin/console d:d:c
+
+dbupdate:
+	docker-compose run --rm php php bin/console doctrine:migrations:migrate
+
+dbfixtures:
+	docker-compose run --rm php php bin/console doctrine:fixtures:load
+
+dbrebuild:
+	docker-compose run --rm php php bin/console d:d:d --force
+	docker-compose run --rm php php bin/console d:d:c
+	docker-compose run --rm php php bin/console d:s:u --force
 
 dbcreate-test:
-	docker-compose run --rm php php artisan migrate:fresh --seed --env=testing
+	docker-compose run --rm php php bin/console --env=test doctrine:database:create
+
+dbupdate-test:
+	docker-compose run --rm php php bin/console --env=test doctrine:migrations:migrate
 
 npm-install:
 	docker-compose run --rm npm install
 
 npm-dev:
-	docker-compose run --rm --service-ports npm run dev
+	docker-compose run --rm npm run dev
+
+npm-watch:
+	docker-compose run --rm npm run watch
