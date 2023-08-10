@@ -26,14 +26,14 @@ fi
 if [ -f docker-compose.yml ]; then
     echo "docker-compose.yml exists"
 
-    docker-compose up -d
+    docker compose up -d
 
     if [[ -n "$path" ]]; then
         echo "vendor is not empty"
-        docker-compose run --rm php rm -r vendor/
+        docker compose run --rm php rm -r vendor/
     fi
 
-    docker-compose run --rm php composer install
+    docker compose run --rm php composer install
     #docker-compose run --rm php php bin/console doctrine:migrations:migrate
     #docker-compose run --rm php php bin/console --env=test doctrine:migrations:migrate
 else
@@ -42,14 +42,14 @@ else
         cp docker-compose.yml.dist docker-compose.yml
         echo "docker-compose.yml copied from docker-compose.yml.dist"
 
-        docker-compose up -d
+        docker compose up -d
 
         if [[ -n "$path" ]]; then
             echo "vendor is not empty"
-            docker-compose run --rm php rm -r vendor/
+            docker compose run --rm php rm -r vendor/
         fi
 
-        docker-compose run --rm php composer install
+        docker compose run --rm php composer install
         #docker-compose run --rm php php bin/console doctrine:migrations:migrate
         #docker-compose run --rm php php bin/console --env=test doctrine:migrations:migrate
     else

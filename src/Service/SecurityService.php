@@ -19,7 +19,7 @@ class SecurityService
 
     public function register(User $user, FormInterface $form): User
     {
-        $user->setPassword($this->userPasswordHasher->hashPassword($user, $form->get('plainPassword')->getData()));
+        $user->setPassword($this->userPasswordHasher->hashPassword($user, $form->get('password')->getData()));
 
         $this->em->persist($user);
         $this->em->flush();
