@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   php:
-    container_name: app_php
+    container_name: myfinances_php
     build:
       context: ./docker/php
     ports:
@@ -13,7 +13,7 @@ services:
       - app
 
   nginx:
-    container_name: app_nginx
+    container_name: myfinances_nginx
     image: nginx:stable-alpine
     ports:
       - "8081:8081"
@@ -25,63 +25,38 @@ services:
     networks:
       - app
 
-  mysql:
-    container_name: app_mysql
-    image: mysql:8
-    ports:
-      - "4306:3306"
-    volumes:
-      - db-data:/var/lib/mysql
-      - ./docker/mysql/init.sql:/data/application/init.sql
-    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --init-file /data/application/init.sql
-    restart: always # always restart unless stopped manually
-    environment:
-      MYSQL_ROOT_PASSWORD: secret
-    networks:
-      - app
-
-  phpmyadmin:
-    container_name: app_phpmyadmin
-    depends_on:
-      - mysql
-    image: phpmyadmin/phpmyadmin
-    links:
-      - mysql
+  postgres:
+    container_name: myfinances_postgres
+    image: postgres:12
     restart: always
+    volumes:
+      - db-data:/var/lib/postgres/data
     ports:
-      - "8888:80"
+      - "5433:5432"
     environment:
-      PMA_HOST: mysql
+      POSTGRES_DB: guestbook
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: secret
     networks:
       - app
-
-#  npm:
-#    container_name: app_npm
-#    image: node:18-alpine
-#    volumes:
-#      - .:/var/www/app
-#      - .env:/var/www/app/.env
-#    ports:
-#      - "3000:3000"
-#      - "3001:3001"
-#    working_dir: /var/www/app
-#    profiles: [ "npm" ]
-#    entrypoint: [ "npm" ]
-#    networks:
-#      - app
 
   npm:
-    container_name: app_npm
+    container_name: myfinances_npm
     image: node:18-alpine
     volumes:
       - .:/var/www/app
-    entrypoint: [ "npm" ]
+      - .env:/var/www/app/.env
+    ports:
+      - "3000:3000"
+      - "3001:3001"
     working_dir: /var/www/app
+    profiles: [ "npm" ]
+    entrypoint: [ "npm" ]
     networks:
       - app
 
   mailhog:
-    container_name: app_mailhog
+    container_name: myfinances_mailhog
     image: mailhog/mailhog
     logging:
       driver: 'none'
