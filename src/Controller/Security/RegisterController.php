@@ -6,7 +6,7 @@ namespace App\Controller\Security;
 
 use App\Entity\User;
 use App\Form\Security\RegistrationFormType;
-use App\Service\SecurityService;
+use App\Service\Security\SecurityService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
