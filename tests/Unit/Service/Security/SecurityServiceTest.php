@@ -24,8 +24,6 @@ class SecurityServiceTest extends TestCase
         $em = $this->createMock(EntityManagerInterface::class);
 
         $securityService = new SecurityService($userPasswordHasher, $em);
-
-        /* @phpstan-ignore-next-line */
         $user = UserFactory::new()->create()->object();
 
         $form->expects($this->once())
@@ -50,7 +48,6 @@ class SecurityServiceTest extends TestCase
             ->method('flush');
 
         // ACT
-        /* @phpstan-ignore-next-line */
         $userResult = $securityService->register($user, $form);
 
         // ASSERT

@@ -22,23 +22,19 @@ class UserRepositoryTest extends KernelTestCase
         self::bootKernel();
 
         $container = self::getContainer();
-        /* @phpstan-ignore-next-line */
         $this->userRepository = $container->get(UserRepository::class);
     }
 
     public function testUpgradePasswordReturnsUser(): void
     {
         // ARRANGE
-        /* @phpstan-ignore-next-line */
         $user = UserFactory::new()->create()->object();
         $newHashedPassword = 'hashedPassword123';
 
         // ACT
-        /* @phpstan-ignore-next-line */
         $this->userRepository->upgradePassword($user, $newHashedPassword);
 
         // ASSERT
-        /* @phpstan-ignore-next-line */
         $this->assertEquals($newHashedPassword, $user->getPassword());
     }
 }
