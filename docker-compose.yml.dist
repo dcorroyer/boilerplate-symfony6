@@ -25,18 +25,33 @@ services:
     networks:
       - app
 
-  postgres:
-    container_name: myfinances_postgres
-    image: postgres:12
-    restart: always
-    volumes:
-      - db-data:/var/lib/postgres/data
+  mysql:
+    container_name: myfinances_mysql
+    image: mysql:8
     ports:
-      - "5433:5432"
+      - "4306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./docker/mysql/init.sql:/data/application/init.sql
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --init-file /data/application/init.sql
+    restart: always # always restart unless stopped manually
     environment:
-      POSTGRES_DB: guestbook
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
+    networks:
+      - app
+
+  phpmyadmin:
+    container_name: myfinances_phpmyadmin
+    depends_on:
+      - mysql
+    image: phpmyadmin/phpmyadmin
+    links:
+      - mysql
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PMA_HOST: mysql
     networks:
       - app
 

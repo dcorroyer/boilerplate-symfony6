@@ -1,18 +1,21 @@
 ###> symfony/framework-bundle ###
-/.env
 /.env.local
 /.env.local.php
 /.env.*.local
-/docker-compose.yml
+/.env
+/.env.test
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
 
-###> symfony/phpunit-bridge ###
-.phpunit.result.cache
-/phpunit.xml
-###< symfony/phpunit-bridge ###
-
 .idea/
+.vscode/
+
+docker-compose.yml
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
