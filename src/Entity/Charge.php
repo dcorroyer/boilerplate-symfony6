@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Lcobucci\Clock\SystemClock;
 
 #[ORM\Entity(repositoryClass: ChargeRepository::class)]
+#[ORM\Table(name: 'charges')]
 class Charge
 {
     #[ORM\Id]

@@ -20,23 +20,18 @@ final class Version1_0_1 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE SEQUENCE charge_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE SEQUENCE charge_line_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE TABLE charge (id INT NOT NULL, amount DOUBLE PRECISION NOT NULL, date TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('COMMENT ON COLUMN charge.date IS \'(DC2Type:datetime_immutable)\'');
-        $this->addSql('CREATE TABLE charge_line (id INT NOT NULL, charge_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, amount DOUBLE PRECISION NOT NULL, type VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE INDEX IDX_99D7D92955284914 ON charge_line (charge_id)');
-        $this->addSql('ALTER TABLE charge_line ADD CONSTRAINT FK_99D7D92955284914 FOREIGN KEY (charge_id) REFERENCES charge (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('CREATE TABLE charge_lines (id INT AUTO_INCREMENT NOT NULL, charge_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, amount DOUBLE PRECISION NOT NULL, type VARCHAR(255) NOT NULL, INDEX IDX_592580BE55284914 (charge_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE charges (id INT AUTO_INCREMENT NOT NULL, amount DOUBLE PRECISION NOT NULL, date DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE incomes (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, amount DOUBLE PRECISION NOT NULL, date DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', type VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('ALTER TABLE charge_lines ADD CONSTRAINT FK_592580BE55284914 FOREIGN KEY (charge_id) REFERENCES charges (id)');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE SCHEMA public');
-        $this->addSql('DROP SEQUENCE charge_id_seq CASCADE');
-        $this->addSql('DROP SEQUENCE charge_line_id_seq CASCADE');
-        $this->addSql('ALTER TABLE charge_line DROP CONSTRAINT FK_99D7D92955284914');
-        $this->addSql('DROP TABLE charge');
-        $this->addSql('DROP TABLE charge_line');
+        $this->addSql('ALTER TABLE charge_lines DROP FOREIGN KEY FK_592580BE55284914');
+        $this->addSql('DROP TABLE charge_lines');
+        $this->addSql('DROP TABLE charges');
+        $this->addSql('DROP TABLE incomes');
     }
 }

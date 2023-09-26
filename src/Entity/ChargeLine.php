@@ -8,6 +8,7 @@ use App\Repository\ChargeLineRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ChargeLineRepository::class)]
+#[ORM\Table(name: 'charge_lines')]
 class ChargeLine
 {
     #[ORM\Id]
