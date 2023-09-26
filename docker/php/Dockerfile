@@ -1,15 +1,12 @@
 FROM php:8.2-fpm
 
-RUN apt-get update && apt-get install -y zlib1g-dev g++ git libicu-dev libzip-dev libpng-dev libpq-dev zip \
+RUN apt-get update && apt-get install -y zlib1g-dev g++ git libicu-dev libzip-dev libpng-dev zip \
     && docker-php-ext-install intl opcache pdo pdo_mysql \
     && pecl install apcu \
     && docker-php-ext-enable apcu \
     && docker-php-ext-configure zip \
     && docker-php-ext-install zip \
-    && docker-php-ext-install gd \
-    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
-    && docker-php-ext-install opcache intl pdo_pgsql pgsql \
-    && docker-php-ext-enable apcu pdo_pgsql sodium
+    && docker-php-ext-install gd
 
 WORKDIR /var/www/app
 
